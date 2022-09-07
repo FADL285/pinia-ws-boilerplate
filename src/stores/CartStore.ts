@@ -1,13 +1,21 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import type { CartItem } from "@/types";
-import items from "@/data/cart.json";
 
 export const useCartStore = defineStore("CartStore", {
   state: () => ({
-    items: items as CartItem[],
+    items: [] as CartItem[],
   }),
   getters: {},
-  actions: {},
+  actions: {
+    addToCart(itemId: string, count: number) {
+      const item = this.items.find((item) => item.id === itemId);
+      if (item) {
+        item.count += count;
+      } else if (count > 0) {
+        this.items.push({ id: itemId, count });
+      }
+    },
+  },
 });
 
 if (import.meta.hot) {
