@@ -8,7 +8,7 @@ import { useCartStore } from "@/stores/CartStore";
 
 // data
 const { products } = storeToRefs(useProductStore());
-const { items: cartItems } = storeToRefs(useCartStore());
+const { items: cartItems, count, isEmpty } = storeToRefs(useCartStore());
 
 const active = ref(false);
 </script>
@@ -17,11 +17,11 @@ const active = ref(false);
     <!-- Icon that always shows -->
     <span class="cursor-pointer" @click="active = true">
       <fa icon="shopping-cart" size="lg" class="text-gray-700" />
-      <div class="cart-count absolute">10</div>
+      <div class="cart-count absolute">{{ count }}</div>
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
-      <div>
+      <div v-if="!isEmpty">
         <ul class="items-in-cart">
           <CartItem
             v-for="item in cartItems"
@@ -40,8 +40,7 @@ const active = ref(false);
           <AppButton class="primary">Checkout</AppButton>
         </div>
       </div>
-      <!-- Uncomment and use condition to show when cart is empty -->
-      <!-- <div><em>Cart is Empty</em></div> -->
+      <div v-else class="text-center"><em>Cart is Empty</em></div>
     </AppModalOverlay>
   </div>
 </template>

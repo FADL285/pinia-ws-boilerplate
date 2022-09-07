@@ -5,7 +5,11 @@ export const useCartStore = defineStore("CartStore", {
   state: () => ({
     items: [] as CartItem[],
   }),
-  getters: {},
+  getters: {
+    count: (state) =>
+      state.items.reduce((prevVal, current) => prevVal + current.count, 0),
+    isEmpty: (state) => !state.items.length,
+  },
   actions: {
     addToCart(itemId: string, count: number) {
       const item = this.items.find((item) => item.id === itemId);
