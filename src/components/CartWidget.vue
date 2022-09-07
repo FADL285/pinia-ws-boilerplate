@@ -1,15 +1,14 @@
 <script setup>
 // imports
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import CartItem from "./CartItem.vue";
-import products from "@/data/products.json";
-import cartItems from "@/data/cart.json";
 import { useProductStore } from "@/stores/ProductStore";
 import { useCartStore } from "@/stores/CartStore";
 
 // data
-const productStore = useProductStore();
-const cartStore = useCartStore();
+const { products } = storeToRefs(useProductStore());
+const { items: cartItems } = storeToRefs(useCartStore());
 
 const active = ref(false);
 </script>
